@@ -1,5 +1,5 @@
 import React from 'react'
-
+// it is a normal loading svg used in submit button.
 const Loader = () => {
   return (
     <div className='flex-center w-full'>

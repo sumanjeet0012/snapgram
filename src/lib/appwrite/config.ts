@@ -1,3 +1,5 @@
+// This is setting up the Appwrite SDK client and services to integrate with an Appwrite backend.
+
 import { Client, Account, Databases, Storage, Avatars } from 'appwrite';
 
 export const appwriteConfig = {
