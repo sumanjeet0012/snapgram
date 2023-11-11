@@ -17,11 +17,13 @@ import Loader from '@/components/shared/Loader' // it is a normal loading svg us
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import { createUserAccount } from '@/lib/appwrite/api' // its a function in which user details are passed and it returns a promise.
+import { useToast } from "@/components/ui/use-toast" // it is imported from shadcn and used to show toast.
 
 
 
 
 const SignupForm = () => {
+  const {toast} = useToast(); // it is a function which is used to show toast.
 
   const isLoading = false;
   // 1 and 2 are zod components.
@@ -45,7 +47,11 @@ const SignupForm = () => {
     const newUser = await createUserAccount(values);
 
     // ✅ This will be type-safe and validated.
-    console.log(newUser)
+    if(!newUser){
+      return toast({
+        variant: "destructive",
+        title: "Sign up Error, please try again"})
+    }
   }
 
   return (

@@ -5,6 +5,7 @@ import SignupForm from './_auth/forms/SignupForm'
 import { Home } from './_root/pages'
 import AuthLayout from './_auth/AuthLayout'
 import RootLayout from './_root/RootLayout'
+import { Toaster } from "@/components/ui/toaster" // To use toast we have to add it to most outer part of our project.
 
 const App = () => {
   return (
@@ -20,8 +21,11 @@ const App = () => {
               <Route index element={<Home />}/>
             </Route>
         </Routes>
+        <Toaster/> 
     </main>
   )
 }
 
 export default App
+
+// Toaster manages global state and needs to be rendered at the top level to function properly
