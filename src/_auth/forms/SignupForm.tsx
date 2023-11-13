@@ -14,10 +14,12 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import Loader from '@/components/shared/Loader' // it is a normal loading svg used in submit button.
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import { z } from 'zod'
-import { createUserAccount } from '@/lib/appwrite/api' // its a function in which user details are passed and it returns a promise.
+// import { createUserAccount } from '@/lib/appwrite/api' // its a function in which user details are passed and it returns a promise.
 import { useToast } from "@/components/ui/use-toast" // it is imported from shadcn and used to show toast.
+import { useCreateUserAccount, useSignInAccount } from '@/lib/react-query/queriesAndMutations'
+import { useUserContext } from '@/context/AuthContext'
 
 
 
@@ -25,7 +27,12 @@ import { useToast } from "@/components/ui/use-toast" // it is imported from shad
 const SignupForm = () => {
   const {toast} = useToast(); // it is a function which is used to show toast.
 
-  const isLoading = false;
+  const { checkAuthUser, isLoading: isUserLoading} = useUserContext();
+  const navigate = useNavigate();
+  const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
+
+  const { mutateAsync: signInAccount, isPending: isSigningIn } = useSignInAccount();
+
   // 1 and 2 are zod components.
 
   
@@ -50,8 +57,27 @@ const SignupForm = () => {
     if(!newUser){
       return toast({
         variant: "destructive",
-        title: "Sign up Error, please try again"})
+        title: "Sign up failed, please try again"})
     }
+
+    const session = await signInAccount({email: values.email, password: values.password});
+
+    if(!session){
+      return toast({
+        title: "Sign in failed, please try again"})
+    }
+
+    const isLoading = await checkAuthUser();
+
+    if(isLoading){
+      form.reset();
+      navigate('/')
+    }else{
+      toast({
+        title: "Sign in failed, please try again"
+      })
+    }
+
   }
 
   return (
@@ -119,7 +145,7 @@ const SignupForm = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className='shad-button_primary'>{isLoading ? (
+            <Button type="submit" className='shad-button_primary'>{isCreatingAccount ? (
               <div className='flex-center gap-2'><Loader />Loading...</div>
             ) : "Sign up"}</Button>
 
