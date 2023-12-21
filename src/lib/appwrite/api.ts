@@ -102,48 +102,56 @@ export async function signOutAccount() {
 
 export async function createPost(post: INewPost) {
     try {
-        const uploadedFile = await uploadFile(post.file[0]);
-        if(!uploadedFile) throw new Error("File not uploaded")
-        const fileUrl = getFilePreview(uploadedFile.$id);
-        if(!fileUrl) {
-            deleteFile(uploadedFile.$id);
-            throw new Error("File url not found");
+      // Upload file to appwrite storage
+      const uploadedFile = await uploadFile(post.file[0]);
+  
+      if (!uploadedFile) throw Error;
+  
+      // Get file url
+      const fileUrl = getFilePreview(uploadedFile.$id);
+      if (!fileUrl) {
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+  
+      // Convert tags into array
+      const tags = post.tags?.replace(/ /g, "").split(",") || [];
+  
+      // Create post
+      const newPost = await databases.createDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        ID.unique(),
+        {
+          creator: post.userId,
+          captions: post.caption,
+          imageUrl: fileUrl,
+          imageId: uploadedFile.$id,
+          location: post.location,
+          tags: tags,
         }
-
-        const tags = post.tags?.replace(/ /g,'').split(',') || [];
-        const newPost = await databases.createDocument(
-            appwriteConfig.databaseId,
-            appwriteConfig.postCollectionId,
-            ID.unique(),
-            {
-                creator: post.userId,
-                caption: post.caption,
-                imageUrl: fileUrl,
-                ImageId: uploadedFile.$id,
-                location: post.location,
-                tags: tags,
-            },
-        ); 
-
-        if(!newPost) {
-            await deleteFile(uploadedFile.$id);
-            throw Error;
-        }
-
-        return newPost;
+      );
+  
+      if (!newPost) {
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+  
+      return newPost;
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-}
+  }
 
 export async function uploadFile(file: File) {
     try {
+        console.log("upload file function is started")
         const uploadedFile = await storage.createFile(
             appwriteConfig.storageId,
             ID.unique(),
             file,
         );
-
+            console.log("upload file function is working")
         return uploadedFile;
     } catch (error) {
         console.log(error);
@@ -180,16 +188,33 @@ export async function deleteFile(fileId: string) {
     }
 }
 
+// export async function getRecentPosts() {
+//     try {
+//         const posts = await databases.listDocuments(
+//             appwriteConfig.databaseId,
+//             appwriteConfig.postCollectionId,
+//             [Query.orderDesc('$createdAt'), Query.limit(20)]
+//         );
+//             if(!posts) throw Error
+//         return posts;
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
+
+// ============================== GET POPULAR POSTS (BY HIGHEST LIKE COUNT)
 export async function getRecentPosts() {
-    try {
-        const posts = await databases.listDocuments(
-            appwriteConfig.databaseId,
-            appwriteConfig.postCollectionId,
-            [Query.orderDesc('$createdAt'), Query.limit(20)]
-        );
-            if(!posts) throw Error
-        return posts;
-    } catch (error) {
-        console.log(error);
-    }
-}
+    console.log("getRecentPosts function is started")
+    console.log(appwriteConfig.postCollectionId)
+      const posts = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        [Query.orderDesc("$createdAt"), Query.limit(20)]
+      );
+        console.log("getRecentPosts function is finished")
+      if (!posts) throw Error;
+        console.log("getRecentPosts function is working")
+      return posts;
+    } 
+  
