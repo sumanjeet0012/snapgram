@@ -158,9 +158,9 @@ export async function uploadFile(file: File) {
     }
 }
 
-export async function getFilePreview(fileId: string) {
+export function getFilePreview(fileId: string) {
     try {
-        const fileUrl = await storage.getFilePreview(
+        const fileUrl = storage.getFilePreview(
             appwriteConfig.storageId,
             fileId,
             2000,
@@ -205,16 +205,12 @@ export async function deleteFile(fileId: string) {
 
 // ============================== GET POPULAR POSTS (BY HIGHEST LIKE COUNT)
 export async function getRecentPosts() {
-    console.log("getRecentPosts function is started")
-    console.log(appwriteConfig.postCollectionId)
       const posts = await databases.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.postCollectionId,
         [Query.orderDesc("$createdAt"), Query.limit(20)]
       );
-        console.log("getRecentPosts function is finished")
       if (!posts) throw Error;
-        console.log("getRecentPosts function is working")
       return posts;
     } 
   
