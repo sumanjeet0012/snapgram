@@ -145,13 +145,11 @@ export async function createPost(post: INewPost) {
 
 export async function uploadFile(file: File) {
     try {
-        console.log("upload file function is started")
         const uploadedFile = await storage.createFile(
             appwriteConfig.storageId,
             ID.unique(),
             file,
         );
-            console.log("upload file function is working")
         return uploadedFile;
     } catch (error) {
         console.log(error);
@@ -234,12 +232,6 @@ export async function likePost(postId: string, likesArray: string[]){
 
 export async function savePost(userId: string, postId: string){
     try {
-        console.log({
-            userId,
-            post: postId,
-        })
-        console.log(appwriteConfig.savesCollectionId)
-        console.log(appwriteConfig.databaseId)
         const updatedPost = await databases.createDocument(
             appwriteConfig.databaseId,
             appwriteConfig.savesCollectionId,
@@ -258,8 +250,6 @@ export async function savePost(userId: string, postId: string){
 
 export async function deleteSavedPost(saveRecordId: string){
     try {
-        console.log(appwriteConfig.storageId);
-        console.log(saveRecordId);
         const statusCode = await databases.deleteDocument(
             appwriteConfig.databaseId,
             appwriteConfig.savesCollectionId,
