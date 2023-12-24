@@ -25,9 +25,10 @@ import { useUserContext } from "@/context/AuthContext"
 
 type PostFormProps = {
  post?: Models.Document;
+ action: 'create' | 'Update';
 }
 
-const PostForms = ({ post }: PostFormProps) => {
+const PostForms = ({ post, action }: PostFormProps) => {
 
   // const { mutateAsync: createPost, isPending: isLoadingCreate } = useCreatePost();
   const { mutateAsync: createPost, isLoading: isLoadingCreate } =
@@ -41,7 +42,7 @@ const PostForms = ({ post }: PostFormProps) => {
    const form = useForm<z.infer<typeof PostValidation>>({
     resolver: zodResolver(PostValidation),
     defaultValues: {
-      caption: post ? post.caption : "",
+      caption: post ? post.captions : "",
       file: [],
       location: post ? post.location : "",
       tags: post ? post.tags : "",
@@ -65,6 +66,7 @@ const PostForms = ({ post }: PostFormProps) => {
     }
     navigate('/');
   }
+  console.log(post?.imageUrl);
 
   return (
     <Form {...form}>
