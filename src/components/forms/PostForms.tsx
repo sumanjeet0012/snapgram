@@ -18,9 +18,10 @@ import { Textarea } from "../ui/textarea"
 import FileUploader from "../shared/FileUploader"
 import {PostValidation} from "@/lib/validation"
 import { Models } from "appwrite"
-import { useCreatePost, useUpdatePost } from "@/lib/react-query/queries";
+import { useCreatePost } from "@/lib/react-query/queries";
 import { toast, useToast } from "../ui/use-toast"
 import { useUserContext } from "@/context/AuthContext"
+import { useUpdatePost } from "@/lib/react-query/queriesAndMutations"
  
 
 type PostFormProps = {
@@ -33,6 +34,8 @@ const PostForms = ({ post, action }: PostFormProps) => {
   // const { mutateAsync: createPost, isPending: isLoadingCreate } = useCreatePost();
   const { mutateAsync: createPost, isLoading: isLoadingCreate } =
     useCreatePost();
+  const { mutateAsync: updatePost, isLoading: isLoadingUpdate } =
+    useUpdatePost();
   
   const { user } = useUserContext();
   const { toast } = useToast();
@@ -54,6 +57,23 @@ const PostForms = ({ post, action }: PostFormProps) => {
   async function onSubmit(values: z.infer<typeof PostValidation>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+
+      if(post && action === 'Update'){
+        const updatedPost = await updatePost({
+          ...values,
+          postId: post.$id,
+          imageId: post.imageId,
+          imageUrl: post.imageUrl,
+        })
+
+        if(!updatedPost){
+          toast({
+            title: 'Please try again',
+          })
+        }
+          return navigate(`/posts/${post.$id}`);
+      }
+
         const newPost = await createPost({
       ...values,
       userId: user.id,
@@ -141,7 +161,9 @@ const PostForms = ({ post, action }: PostFormProps) => {
         <Button 
           type="submit"
           className="shad-button_primary whitespace-nowrap"
-          >Submit
+          disabled={isLoadingCreate || isLoadingUpdate}
+          >{isLoadingCreate || isLoadingUpdate && 'Loading...'}
+          {action} Post
         </Button>
         </div>
       </form>

@@ -274,7 +274,7 @@ export async function getPostById(postId: string) {
   }
 }
 
-export async function UpdatePost(post: IUpdatePost) {
+export async function updatePost(post: IUpdatePost) {
   const hasFileToUpload = post.file.length > 0;
 
   try {
@@ -325,4 +325,17 @@ export async function UpdatePost(post: IUpdatePost) {
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function deletePost(postId: string, imageId: string){
+    if(!postId || !imageId) throw Error;
+    try {
+        await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            postId
+        );
+    } catch (error) {
+        console.log(error);
+    }
 }
