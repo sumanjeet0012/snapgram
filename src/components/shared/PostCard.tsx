@@ -1,5 +1,5 @@
 import { useUserContext } from "@/context/AuthContext";
-import { formatDateString, multiFormatDateString } from "@/lib/utils";
+import { multiFormatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 import PostStats from "./PostStats";
