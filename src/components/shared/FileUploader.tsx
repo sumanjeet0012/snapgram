@@ -1,5 +1,4 @@
-import { type } from 'os';
-import React, { useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { FileWithPath,useDropzone } from 'react-dropzone'
 
 type FileUploaderProps = {

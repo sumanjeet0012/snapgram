@@ -2,7 +2,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { useNavigate } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -18,9 +17,6 @@ import { Textarea } from "../ui/textarea"
 import FileUploader from "../shared/FileUploader"
 import {PostValidation} from "@/lib/validation"
 import { Models } from "appwrite"
-import { useCreatePost, useUpdatePost } from "@/lib/react-query/queries";
-import { toast, useToast } from "../ui/use-toast"
-import { useUserContext } from "@/context/AuthContext"
 
 
 type PostFormProps = {

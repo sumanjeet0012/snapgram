@@ -27,11 +27,11 @@ import { useUserContext } from '@/context/AuthContext'
 const SignupForm = () => {
   const {toast} = useToast(); // it is a function which is used to show toast.
 
-  const { checkAuthUser, isLoading: isUserLoading} = useUserContext();
+  const { checkAuthUser} = useUserContext();
   const navigate = useNavigate();
-  const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
+  const { mutateAsync: createUserAccount, isLoading: isCreatingAccount } = useCreateUserAccount();
 
-  const { mutateAsync: signInAccount, isPending: isSigningIn } = useSignInAccount();
+  const { mutateAsync: signInAccount } = useSignInAccount();
 
   // 1 and 2 are zod components.
 

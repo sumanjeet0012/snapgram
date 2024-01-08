@@ -18,7 +18,7 @@ import { Link,useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 // import { createUserAccount } from '@/lib/appwrite/api' // its a function in which user details are passed and it returns a promise.
 import { useToast } from "@/components/ui/use-toast" // it is imported from shadcn and used to show toast.
-import { useCreateUserAccount, useSignInAccount } from '@/lib/react-query/queriesAndMutations'
+import { useSignInAccount } from '@/lib/react-query/queriesAndMutations'
 import { useUserContext } from '@/context/AuthContext'
 
 
@@ -33,7 +33,7 @@ const SigninForm = () => {
 
   const navigate = useNavigate();
 
-  const { mutateAsync: signInAccount, isPending } = useSignInAccount();
+  const { mutateAsync: signInAccount } = useSignInAccount();
 
   // useSignInAccount is a custom hook which uses useMutation hook from tanstack/react-query and returns many things like isPending mutateAsync and much more. We destructure only those things which we are going to use.
   // when mutateAsync function is called it executes the mutation function passed to useMutation hook (i.e signInAccount) and returns a promise. If the promise is resolved then it returns the data returned by the mutation function and if the promise is rejected then it returns the error.
