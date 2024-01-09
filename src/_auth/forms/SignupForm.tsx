@@ -50,8 +50,9 @@ const SignupForm = () => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
     // Do something with the form values.
-
+    console.log("sign up form values" + values);
     const newUser = await createUserAccount(values);
+    console.log("new user" + newUser);
 
     // ✅ This will be type-safe and validated.
     if(!newUser){
@@ -61,20 +62,22 @@ const SignupForm = () => {
     }
 
     const session = await signInAccount({email: values.email, password: values.password});
+    console.log("session" + session);
 
     if(!session){
       return toast({
-        title: "Sign in failed, please try again"})
+        title: "Something went wrong. Please login your new account"})
     }
 
     const isLoading = await checkAuthUser();
+    console.log("isLoading" + isLoading);
 
     if(isLoading){
       form.reset();
       navigate('/')
     }else{
       toast({
-        title: "Sign in failed, please try again"
+        title: "Login failed. Please try again."
       })
     }
 

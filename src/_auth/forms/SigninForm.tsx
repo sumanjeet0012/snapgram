@@ -55,14 +55,17 @@ const SigninForm = () => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
+    console.log("values" + values)
     const session = await signInAccount({email: values.email, password: values.password});
+    console.log("session" + session)
 
     if(!session){
       return toast({
-        title: "Sign in failed, please try again"})
+        title: "Sign in failed, please try again..."})
     }
 
     const isLoading = await checkAuthUser();
+    console.log("isLoading" + isLoading);
 
     if(isLoading){
       form.reset();
