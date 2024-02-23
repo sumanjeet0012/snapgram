@@ -1,27 +1,40 @@
-# React + TypeScript + Vite
+<h2 align="center">
+  <a href="https://snapgram-dhmx.vercel.app/" target="_blank">Snapgram</a> <br/>
+      A Social media app
+</h2>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
+  <img alt="Demo" src="/public/assets/images/demo.png" />
+</div>
 
-Currently, two official plugins are available:
+This is a social media app built with React JS, Appwrite, Tailwind CSS, and React Query.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+* Explore posts shared by others
+* Like and save posts
+* Create posts with images
+* Edit and delete posts
+* Responsive UI with a bottom bar
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Getting Started
 
-- Configure the top-level `parserOptions` property like this:
+1. Clone the project repository: `git clone https://github.com/sumanjeet0012/snapgram`
+2. Install the dependencies: `npm install`
+3. Create an Appwrite account and set up your project: https://appwrite.io/
+4. Configure the Appwrite environment variables in the `.env` file using the `example.env` file
+5. Start the development server: `npm run dev`
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+## Usage
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+1. Open http://localhost:5173 in your browser.
+2. Sign up or log in to your Appwrite account.
+3. Start exploring and creating posts!
+
+## Contributing
+
+We welcome contributions to this project! Please see the CONTRIBUTING.md file for more information.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for more information.
