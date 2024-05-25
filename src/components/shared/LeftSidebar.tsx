@@ -80,7 +80,7 @@ const LeftSidebar = () => {
       onClick={() => signOut()}
       >
         <img src="/assets/icons/logout.svg" alt="logout" className='hover:invert-white'/>
-        <p className='small-medium lg:base-medium'>Logput</p>
+        <p className='small-medium lg:base-medium'>Logout</p>
       </Button>
       </div>
     </nav>
